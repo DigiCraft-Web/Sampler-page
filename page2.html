@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" class="transition-all duration-500">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DigiCraft - Page 2</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .bg-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 200%;
+      height: 100%;
+      display: flex;
+      transition: transform 1s ease-in-out;
+      z-index: -1;
+    }
+
+    .bg-half {
+      width: 50%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .bg-day {
+      background-image: url('assets/day.jpg');
+    }
+
+    .bg-night {
+      background-image: url('assets/night.jpg');
+    }
+
+    .swipe-day {
+      transform: translateX(0%);
+    }
+
+    .swipe-night {
+      transform: translateX(-50%);
+    }
+
+    .theme-toggle-container {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 50;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      border-radius: 999px;
+      width: 60px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      padding: 3px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .theme-icon {
+      width: 24px;
+      height: 24px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: margin-left 0.4s ease, transform 0.4s ease;
+    }
+
+    .dark .theme-icon {
+      margin-left: 30px;
+    }
+
+    @keyframes fallIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fall-in {
+      animation: fallIn 0.6s ease-out;
+    }
+
+    .tab-section {
+      display: none;
+    }
+
+    .tab-active {
+      display: block;
+    }
+  </style>
+</head>
+<body class="text-black dark:text-white transition-colors duration-500">
+
+  <!-- Background Swiping -->
+  <div id="bgSlider" class="bg-container swipe-day">
+    <div class="bg-half bg-day"></div>
+    <div class="bg-half bg-night"></div>
+  </div>
+
+  <!-- Theme Toggle -->
+  <div id="themeToggle" class="theme-toggle-container">
+    <div id="themeIcon" class="theme-icon">🌙</div>
+  </div>
+
+  <!-- Sticky Header Tabs -->
+  <header class="w-full sticky top-0 z-20 backdrop-blur bg-white/30 dark:bg-black/30 shadow-md">
+    <nav class="flex justify-center gap-6 p-4 font-semibold text-lg">
+      <button onclick="switchTab('about')" class="hover:underline">About Us</button>
+      <button onclick="switchTab('services')" class="hover:underline">Our Services</button>
+      <button onclick="switchTab('samples')" class="hover:underline">Samples</button>
+    </nav>
+  </header>
+
+  <!-- Go Back Button -->
+  <div class="w-full flex justify-start px-6 pt-4">
+    <a href="index.html" class="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-full shadow-lg hover:scale-105 transition">
+      ← Go Back
+    </a>
+  </div>
+
+  <!-- Tab Sections -->
+  <section id="about" class="tab-section tab-active px-6 py-10 fall-in">
+    <h2 class="text-3xl font-bold mb-4">About DigiCraft</h2>
+    <p>We are a creative digital team offering custom websites, design, and software for small businesses and individuals.</p>
+  </section>
+
+  <section id="services" class="tab-section px-6 py-10 fall-in">
+    <h2 class="text-3xl font-bold mb-4">Our Services</h2>
+    <ul class="list-disc list-inside space-y-2">
+      <li>Portfolio & Business Website Creation</li>
+      <li>Music and Chants for Branding</li>
+      <li>Photo & Video Editing</li>
+      <li>2D/3D Game Development</li>
+      <li>Android Studio Apps</li>
+      <li>Logo Making and Thumbnails</li>
+    </ul>
+  </section>
+
+  <section id="samples" class="tab-section px-6 py-10 fall-in">
+    <h2 class="text-3xl font-bold mb-4">Project Samples</h2>
+    <p>Here you'll find samples of our work: thumbnails, game demos, apps, and websites tailored to different needs.</p>
+    <!-- Add actual sample previews here -->
+  </section>
+
+  <!-- Footer with Icons -->
+  <footer class="w-full mt-20 text-center py-6 bg-white/30 dark:bg-black/30 backdrop-blur-sm">
+    <div class="flex justify-center items-center gap-6 mb-2">
+      <a href="#" target="_blank">
+        <img src="assets/icons/facebook.png" alt="Facebook" class="w-6 h-6 hover:scale-110 transition">
+      </a>
+      <a href="#" target="_blank">
+        <img src="assets/icons/instagram.png" alt="Instagram" class="w-6 h-6 hover:scale-110 transition">
+      </a>
+      <a href="#" target="_blank">
+        <img src="assets/icons/github.png" alt="GitHub" class="w-6 h-6 hover:scale-110 transition">
+      </a>
+    </div>
+    <p class="text-sm">&copy; 2025 DigiCraft Solutions. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    const html = document.documentElement;
+    const bgSlider = document.getElementById("bgSlider");
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+
+    themeToggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      bgSlider.classList.toggle('swipe-night');
+      bgSlider.classList.toggle('swipe-day');
+      themeIcon.textContent = html.classList.contains('dark') ? '🌞' : '🌙';
+    });
+
+    function switchTab(id) {
+      document.querySelectorAll(".tab-section").forEach(section => {
+        section.classList.remove("tab-active", "fall-in");
+      });
+      const active = document.getElementById(id);
+      void active.offsetWidth; // force reflow
+      active.classList.add("tab-active", "fall-in");
+    }
+  </script>
+</body>
+</html>

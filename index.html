@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" class="transition-all duration-500">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DigiCraft</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Pulse Animation for Loader */
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.4;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    /* Shake Animation for DigiCraft */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-2px); }
+      50% { transform: translateX(2px); }
+      75% { transform: translateX(-1px); }
+    }
+
+    .gentle-shake {
+      animation: shake 1.5s infinite;
+    }
+
+    /* Falling animation */
+    @keyframes fallDown {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    .fall {
+      animation: fallDown 1s forwards;
+    }
+
+    .bg-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 200%;
+      height: 100%;
+      display: flex;
+      transition: transform 1s ease-in-out;
+      z-index: -1;
+    }
+
+    .bg-half {
+      width: 50%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .bg-day {
+      background-image: url('assets/day.jpg');
+    }
+
+    .bg-night {
+      background-image: url('assets/night.jpg');
+    }
+
+    .swipe-day {
+      transform: translateX(0%);
+    }
+
+    .swipe-night {
+      transform: translateX(-50%);
+    }
+
+    .theme-toggle-container {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 50;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      border-radius: 999px;
+      width: 60px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      padding: 3px;
+      cursor: pointer;
+    }
+
+    .theme-icon {
+      width: 24px;
+      height: 24px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: margin-left 0.4s ease;
+    }
+
+    .dark .theme-icon {
+      margin-left: 30px;
+    }
+
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255,255,255,0.8);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body class="text-black dark:text-white transition-colors duration-500">
+
+  <!-- Background Slider -->
+  <div id="bgSlider" class="bg-container swipe-day">
+    <div class="bg-half bg-day"></div>
+    <div class="bg-half bg-night"></div>
+  </div>
+
+  <!-- Loading Screen -->
+  <div id="loader" class="pulse text-4xl font-bold text-purple-700">
+    Loading...
+  </div>
+
+  <!-- Theme Toggle Button -->
+  <div id="themeToggle" class="theme-toggle-container">
+    <div id="themeIcon" class="theme-icon">🌙</div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="mainContent" class="h-screen flex flex-col justify-center items-center gap-6 text-center px-6">
+    <button id="titleBtn" class="text-5xl md:text-7xl font-extrabold bg-gradient-to-r from-pink-500 to-purple-600 text-transparent bg-clip-text gentle-shake focus:outline-none">
+      DigiCraft
+    </button>
+    <p class="text-lg max-w-xl">Empowering creatives, coders, and visionaries through tailored websites, music, design, and development.</p>
+    <a href="page2.html" class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-6 py-3 rounded-full font-semibold shadow-md hover:scale-105 transition">
+      Explore →
+    </a>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    const html = document.documentElement;
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+    const bgSlider = document.getElementById("bgSlider");
+    const loader = document.getElementById("loader");
+    const titleBtn = document.getElementById("titleBtn");
+
+    // Theme switcher
+    themeToggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      bgSlider.classList.toggle('swipe-night');
+      bgSlider.classList.toggle('swipe-day');
+      themeIcon.textContent = html.classList.contains('dark') ? '🌞' : '🌙';
+    });
+
+    // Remove loader after delay
+    window.addEventListener('load', () => {
+      setTimeout(() => loader.style.display = 'none', 1500);
+    });
+
+    // DigiCraft button click 5x to fall
+    let clickCount = 0;
+    titleBtn.addEventListener('click', () => {
+      clickCount++;
+      if (clickCount === 5) {
+        document.querySelectorAll('#mainContent > *').forEach(el => {
+          el.classList.add('fall');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
